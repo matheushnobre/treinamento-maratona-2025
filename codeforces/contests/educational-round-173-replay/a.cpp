@@ -4,11 +4,13 @@ using namespace std;
 typedef long long ll;
 
 void solve(){
-    ll n;
+    ll n, ans=1;
     cin>>n;
 
-    ll r = log(n) / log(4);
-    ll ans = pow(2, r);
+    while(n >= 4){
+        n /= 4;
+        ans *= 2;
+    }
     cout<<ans<<endl;
 }
 
