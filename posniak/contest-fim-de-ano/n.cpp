@@ -1,31 +1,53 @@
-// Memory Limit Exceeded 
-
 #include <bits/stdc++.h>
 using namespace std;
 
-typedef long long ll;
+struct NoTrie{
+    int answer;
+    NoTrie* filhos[26];
+
+    NoTrie(int tam){
+        answer = tam;
+        for(int i=0; i<26; i++) filhos[i] = nullptr;
+    }
+};
+
+void inserir(NoTrie* raiz, string palavra){
+    NoTrie* no = raiz;
+    for(unsigned int i=0; i<palavra.size(); i++){
+        char c = palavra[i];
+        int index = c - 'a';
+        if(no->filhos[index] == nullptr)
+            no->filhos[index] = new NoTrie(palavra.size()-i-1);
+        else 
+            no->filhos[index]->answer = min(static_cast<int>(palavra.size() - i - 1), no->filhos[index]->answer);
+        no = no->filhos[index];
+    }
+}
+
+int consultar(NoTrie* raiz, string palavra){
+    NoTrie* no = raiz;
+    for(unsigned int i=0; i<palavra.size(); i++){
+        char c = palavra[i];
+        int index = c - 'a';
+        if(no->filhos[index] == nullptr)
+            return -1;
+        no = no->filhos[index];
+    }
+    return no->answer;
+}
 
 void solve(){
     int n, q;
     string s;
-    map<string, int> answers;
+    NoTrie* raiz = new NoTrie(1000000);
     cin>>n>>q;
-    for(int i=0; i<n; i++){
-        string aux="";
+    while(n--){
         cin>>s;
-        int tam = s.size(), tamAux=0;
-        for(char c : s){
-            aux += c;
-            tamAux++;
-            if(answers.count(aux) == 1) answers[aux] = min(answers[aux], tam - tamAux);
-            else answers[aux] = tam - tamAux;
-        }
+        inserir(raiz, s);
     }
-
-    for(int i=0; i<q; i++){
+    while(q--){
         cin>>s;
-        if(answers.count(s) == 1) cout<<answers[s]<<endl;
-        else cout<<-1<<endl;
+        cout<<consultar(raiz, s)<<endl;
     }
 }
 
