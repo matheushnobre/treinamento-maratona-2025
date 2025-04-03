@@ -1,14 +1,14 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int maxn = 110;
+const int MAXN = 110;
 int n;
 
 // peso das arestas
-int pesos[maxn][maxn];
+int pesos[MAXN][MAXN];
 
 // distância entre qualquer par de vértices
-int distancias[maxn][maxn];
+int distancias[MAXN][MAXN];
 
 void floyd_warshall(){
 	// inicialmente, a distância de u->v será o peso da sua aresta (se existir)
