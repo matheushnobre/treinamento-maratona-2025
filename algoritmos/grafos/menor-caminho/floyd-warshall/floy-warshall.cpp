@@ -1,3 +1,6 @@
+// Pega a distância de todos os pares
+// Ideal para N pequeno
+
 #include <bits/stdc++.h>
 using namespace std;
 
