@@ -4,51 +4,76 @@
 using namespace std;
 
 typedef long long ll;
-typedef pair<int, int> pii;
+
+#define MAXK 1010
+
+vector<vector<int>> sensores(MAXK);
+vector<int> pai(MAXK);
+vector<int> peso(MAXK);
+
+int find(int x){
+    if(pai[x] == x) return x;
+    return pai[x] = find(pai[x]);
+}
+
+void join(int x, int y){
+    x = find(x);
+    y = find(y);
+
+    if(x == y) return;
+    if(peso[x] < peso[y]) pai[x] = y;
+    else if(peso[x] > peso[y]) pai[y] = x;
+    else{
+        pai[y] = x;
+        peso[x]++;
+    }
+}
 
 void solve(){
-  map<pii, int> parede;
-  map<pii, int> visitado;
-  
-  int n, m, k, x, y, s;
-  cin>>n>>m>>k;
-  
-  while(k--){
-    cin>>x>>y>>s;
-    
-    int xmin = max(x-s, 0);
-    int xmax = min(x+s, n);
-    int ymin = max(y-s, 0);
-    int ymax = min(y+s, m);
-    
-    for(int i=xmin; i<=xmax; i++){
-      parede[{i, ymin}] = 1;
-      parede[{i, ymax}] = 1;
-    }
-    
-    for(int j=ymin; j<=ymax; j++){
-      parede[{xmin, j}] = 1;
-      parede[{xmax, j}] = 1;
-    }
-  }
-  
-  // TODO após o Codeforces
-  // Percorrer as paredes, a partir do início delas
-  // Verificar se alguma parede sozinha ou unida com outras paredes tranca o labirinto
-  // Isso irá ocorrer quando ela estiver fechando uma linha (passa em todos os y possiveis) ou uma coluna (passa em todos os x possiveis)
-  // A outra possibilidade é se formar um quadrado bloqueando a parte inicial do mapa
-  // Em caso afirmativo, imprimir N 
-  // Caso contrário, imprimir S
-  
+    int m, n, k, x, y, s;
+    cin>>m>>n>>k;
 
-  // OBSERVACAO:
-  // Supostamente terei que estudar UnionFind para detectar ciclos e resolver este problema
+    for(int i=0; i<MAXK; i++) pai[i] = i;
 
-  
-  if(parede[{0, 0}] || parede[{n-1, m-1}]){
-    cout<<"N"<<endl;
-    return;
-  }
+    for(int i=0; i<k; i++){
+        cin>>x>>y>>s;
+        sensores[i+4] = {x, y, s};
+    }
+
+    for(int i=4; i<k+4; i++){
+        for(int j=i+1; j<k+4; j++){
+            int x1 = sensores[i][0];
+            int y1 = sensores[i][1];
+            int s1 = sensores[i][2];
+
+            int x2 = sensores[j][0];
+            int y2 = sensores[j][1];
+            int s2 = sensores[j][2];
+
+            int dist = (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2);
+            int mp = (s1+s2)*(s1+s2);
+            if(dist <= mp){
+                join(i, j);
+            }
+        }
+    }
+
+    for(int i=4; i<k+4; i++){
+        int x = sensores[i][0];
+        int y = sensores[i][1];
+        int s = sensores[i][2];
+
+        if(y + s >= n) join(i, 0);
+        if(x + s >= m) join(i, 1);
+        if(y - s <= 0) join(i, 2);
+        if(x - s <= 0) join(i, 3);
+    }
+
+    if(find(0) == find(1) || find(0) == find(2) || find(3) == find(1) || find(3) == find(2)){
+        cout<<"N"<<endl;
+    } else{
+        cout<<"S"<<endl;
+    }
 }
 
 int main(){
