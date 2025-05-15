@@ -1,7 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool dfs(const vector <int>grafo[], int o, int d, vector<int>& visitados){
+typedef vector<vector<int>> vii;
+
+bool dfs(vii& grafo, int o, int d, vector<int>& visitados){
     visitados[o] = 1;
     for(int vizinho : grafo[o]){
         if(vizinho == d) return true;
@@ -18,7 +20,7 @@ int main(){
 
     cin>>v>>a;
 
-    vector<int> grafo[v+1]; 
+    vii grafo(v+1); 
     for(int i=0; i<a; i++){
         cin>>o>>d;
         grafo[o].push_back(d); 
