@@ -1,3 +1,5 @@
+// Prefix Sum 2D
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -19,7 +21,6 @@ void solve(){
     int y1, x1, y2, x2;
     for(int i=0; i<q; i++){
       cin>>x1>>y1>>x2>>y2;
-    //  cout<<p[x2][y2]<<" - "<<p[x2][y1-1]<<" - "<<p[x1-1][y2]<<" + "<<p[x1-1][y1-1]<<" = ";
       cout<<p[x2][y2] - p[x2][y1-1] - p[x1-1][y2] + p[x1-1][y1-1]<<endl;
     }
     
