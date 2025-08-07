@@ -24,6 +24,7 @@ int dfs1(int x){
     for(Aresta aresta : grafo){
         if(aresta.a == x) dfs1(aresta.b);
     }
+
     return 0;
 }
 
@@ -34,6 +35,7 @@ int dfs2(int x){
     for(Aresta aresta : grafo){
         if(aresta.b == x) dfs2(aresta.a);
     }
+    
     return 0;
 }
 
@@ -70,7 +72,6 @@ int main(){
     for(int i=0; i<m; i++){
         Aresta aresta;
         cin>>aresta.a>>aresta.b>>aresta.x;
-
         grafo.push_back(aresta);
     }
 

@@ -2,8 +2,8 @@
 using namespace std;
 
 #define MAX 2510
-#define INF 1e18
 typedef long long ll;
+const ll INF = 1e18;
 
 struct Aresta{
     int a, b, x;
@@ -16,7 +16,7 @@ ll belmmanford(int origem, int destino){
     vector<ll> dist(n+1, INF);
     dist[origem] = 0;
 
-    for(int i=0; i<n; i++){
+    for(int i=0; i<n-1; i++){
         for(Aresta aresta : grafo){
             int o = aresta.a;
             int d = aresta.b;

@@ -23,5 +23,5 @@ void floyd_warshall(){
 	for (int k=1; k<=n; k++) // vértice intermediário
 		for (int i=1; i<=n; i++)
 			for (int j=1; j<=n; j++)
-				distancias[i][j] = min(distancias[i][j], distancias[i][k] + distancias[j][k]); // recursão principal
+				distancias[i][j] = min(distancias[i][j], distancias[i][k] + distancias[k][j]); // recursão principal
 }
